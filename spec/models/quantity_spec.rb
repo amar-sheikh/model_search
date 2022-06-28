@@ -132,4 +132,20 @@ describe Quantity, type: :model do
       }.to raise_error ArgumentError
     end
   end
+
+  describe "proportion" do
+    it "calculates correctly in same unit" do
+      q1 = quantity(2, UnitOfMeasure::M_PIECES)
+      q2 = quantity(4, UnitOfMeasure::M_PIECES)
+      expect(q1.proportion(q2)).to eq 0.5
+      expect(q2.proportion(q1)).to eq 2
+    end
+
+    it "compares across different units correctly" do
+      q1 = quantity(1, UnitOfMeasure::C_POUNDS)
+      q2 = quantity(3.2)
+      expect(q1.proportion(q2)).to eq 0.5
+      expect(q2.proportion(q1)).to eq 2
+    end
+  end
 end

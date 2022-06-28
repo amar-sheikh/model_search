@@ -30,17 +30,17 @@ describe StandardPart, type: :model do
       Inventory.create!(standard_part: StandardPart.find_by(sku: "404648"), original_carton_count: 10, carton_count: 1, location: "PA")
     end
 
-    xit "finds parts by name" do
+    it "finds parts by name" do
       results = StandardPart.search("screw")
       expect(results.count).to eq 10
       expect(results.all? {|r| r.name =~ /Screw/ }).to be true
     end
 
-    xit "returns an ActiveRecord Relation" do
+    it "returns an ActiveRecord Relation" do
       expect(StandardPart.search("screw")).to be_a(ActiveRecord::Relation)
     end
 
-    xit "finds parts by name when search terms appear seperately" do
+    it "finds parts by name when search terms appear seperately" do
       results = StandardPart.search("5/16 hex bolt")
       expect(results.count).to eq 4
       expect(
@@ -48,30 +48,30 @@ describe StandardPart, type: :model do
       ).to be true
     end
 
-    xit "does not find parts when search terms appear out of order" do
+    it "does not find parts when search terms appear out of order" do
       results = StandardPart.search("hex bolt 5/16")
       expect(results.count).to eq 0
     end
 
-    xit "finds parts by SKU" do
+    it "finds parts by SKU" do
       results = StandardPart.search("50207")
       expect(results.count).to eq 2
       expect(results.all? {|r| r.sku.start_with?("50207") }).to be true
     end
 
-    xit "filters by part category" do
+    it "filters by part category" do
       results = StandardPart.search("hex", basic_part_category: "Screws")
       expect(results.count).to eq 5
       expect(results.all? {|r| r.name =~ /Screw/ }).to be true
     end
 
-    xit "filters by active Inventory location" do
+    it "filters by active Inventory location" do
       results = StandardPart.search("3/8-16", location: "PA")
       expect(results.count).to eq 1
       expect(results.first.sku).to eq "500363"
     end
 
-    xit "filters by part category and Inventory location" do
+    it "filters by part category and Inventory location" do
       results = StandardPart.search("hex", location: "PA", basic_part_category: "Bolts")
       expect(results.count).to eq 1
       expect(results.first.sku).to eq "404648"

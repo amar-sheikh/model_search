@@ -70,6 +70,10 @@ class Quantity
     )
   end
 
+  def proportion(quant2)
+    value.to_f / quant2.to_uom(@uom).value
+  end
+
   def /(r)
     verify_scalar(r)
     Quantity.new(
